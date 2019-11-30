@@ -38,8 +38,20 @@
         </data-tables>
         <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
             <el-form :model="form" @submit.native.prevent>
-                <el-form-item label="数据">
+                <el-form-item label="影片名称">
                     <el-input ref="valueInput" v-model.trim="form.name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="影片格式">
+                    <el-input ref="valueInput" v-model.trim="form.format" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="影片描述">
+                    <el-input ref="valueInput" v-model.trim="form.description" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="其它信息">
+                    <el-input ref="valueInput" v-model.trim="form.comment" auto-complete="off"
                               @keyup.enter.native="createOrUpdate"></el-input>
                 </el-form-item>
             </el-form>

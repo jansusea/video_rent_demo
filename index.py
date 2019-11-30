@@ -13,12 +13,6 @@ db = SQLAlchemy(app)
 
 js_glue = JSGlue()
 js_glue.init_app(app)  # 让js文件中可以使用url_for方法
-# results = []
-# chars = 'ABCDEFGHIJKLMNOPQRSTUVWSYZ'
-# results.append({'name': 'vue.js+flask+element-ui简易Demo', 'flag': 'true'})
-# results.append({'name': '代码请戳github', 'flag': 'true', 'url': 'https://github.com/qianbin01/Vue-flask'})
-# for i in range(5):
-#     results.append({'name': random.choice(chars), 'index': str(uuid1())})
 
 parser = reqparse.RequestParser()
 
@@ -127,13 +121,16 @@ def add():
     parser.add_argument("format")
     parser.add_argument("name")
     parser.add_argument("description")
+    parser.add_argument("comment")
     args = parser.parse_args()
     video_format = args['format']
     video_name = args['name']
     video_description = args['description']
+    comment = args['comment']
     video = Video(video_format=video_format,
                   video_name=video_name,
-                  video_description=video_description)
+                  video_description=video_description,
+                  comment=comment)
     db.create_all()  # In case user table doesn't exists already. Else remove it.
     db.session.add(video)
     db.session.commit()
@@ -148,12 +145,14 @@ def update():
     parser.add_argument("name", type=str)
     parser.add_argument("format", type=str)
     parser.add_argument("description", type=str)
+    parser.add_argument("comment", type=str)
     args = parser.parse_args()
 
     item_id = args.get('id')
     new_name = args.get('name')
     new_format = args.get('format')
     new_description = args.get('description')
+    new_comment = args.get('comment')
     video = db.session.query(Video).filter_by(id=item_id).first()
 
     # 将要修改的值赋给title
@@ -161,6 +160,7 @@ def update():
         video.name = new_name
         video.format = new_format
         video.description = new_description
+        video.comment = new_comment
 
         db.session.commit()
     else:

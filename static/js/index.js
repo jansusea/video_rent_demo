@@ -9,7 +9,10 @@ Vue.component('tabel-detail', {
             dialogFormVisible: false,
             form: {
                 name: '',
-                id: ''
+                id: '',
+                format: '',
+                description: '',
+                comment: ''
             },
             formType: 'create',
             formTitle: '添加影片'
@@ -24,12 +27,15 @@ Vue.component('tabel-detail', {
             return {
                 width: 5,
                 def: [{
-                    name: '添加数据',
+                    name: '添加影片',
                     handler() {
                         self.formType = 'create';
-                        self.formTitle = '添加数据';
+                        self.formTitle = '添加影片';
                         self.form.name = '';
                         self.form.id = '';
+                        self.form.format = '';
+                        self.form.description = '';
+                        self.form.comment = '';
                         self.dialogFormVisible = true;
                     },
                     icon: 'plus'
@@ -50,10 +56,13 @@ Vue.component('tabel-detail', {
                     self.formType = 'edit';
                     self.form.name = row.name;
                     self.form.id = row.id;
+                    self.form.format = row.format;
+                    self.form.description = row.description;
+                    self.form.comment = row.comment;
                     self.formTitle = '编辑数据';
                     self.dialogFormVisible = true;
                 },
-                name: '编辑'
+                name: '更新影片'
             }, {
                 type: 'danger',
                 handler(row) {
@@ -88,13 +97,19 @@ Vue.component('tabel-detail', {
         createOrUpdate: function () {
             let self = this;
             if (self.form.name === '') {
-                self.$message.error('数据不能为空！');
+                self.$message.error('影片名称不能为空！');
                 return
+            }
+            if (self.form.format === '') {
+                self.form.format = 'BD-ROM'
             }
             if (self.formType === 'create') {
                 let url = Flask.url_for("add");
                 axios.post(url, {
-                    name: self.form.name
+                    name: self.form.name,
+                    format: self.form.format,
+                    description: self.form.description,
+                    comment: self.form.comment
                 }).then(function (response) {
                     self.getCategories();
                     self.dialogFormVisible = false;
@@ -104,7 +119,10 @@ Vue.component('tabel-detail', {
                 let url = Flask.url_for("update", {});
                 axios.put(url, {
                     name: self.form.name,
-                    id: self.form.id
+                    id: self.form.id,
+                    format: self.form.format,
+                    description: self.form.description,
+                    comment: self.form.comment
                 }).then(function (response) {
                     self.getCategories();
                     self.dialogFormVisible = false;
