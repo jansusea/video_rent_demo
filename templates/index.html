@@ -30,7 +30,7 @@
                      :pagination-def="getPaginationDef()"
                      :row-action-def="getRowActionsDef()"
                      action-col-width="80">
-            <el-table-column label="关键词" min-width="400">
+            <el-table-column label="影片名称" min-width="400">
                 <template scope="scope">
                     <a :href="scope.row.url" target="_blank" v-text="scope.row.name"></a>
                 </template>

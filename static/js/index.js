@@ -9,10 +9,10 @@ Vue.component('tabel-detail', {
             dialogFormVisible: false,
             form: {
                 name: '',
-                index: ''
+                id: ''
             },
             formType: 'create',
-            formTitle: '添加数据'
+            formTitle: '添加影片'
         }
     },
     mounted: function () {
@@ -29,7 +29,7 @@ Vue.component('tabel-detail', {
                         self.formType = 'create';
                         self.formTitle = '添加数据';
                         self.form.name = '';
-                        self.form.index = '';
+                        self.form.id = '';
                         self.dialogFormVisible = true;
                     },
                     icon: 'plus'
@@ -49,7 +49,7 @@ Vue.component('tabel-detail', {
                 handler(row) {
                     self.formType = 'edit';
                     self.form.name = row.name;
-                    self.form.index = row.index;
+                    self.form.id = row.id;
                     self.formTitle = '编辑数据';
                     self.dialogFormVisible = true;
                 },
@@ -57,22 +57,23 @@ Vue.component('tabel-detail', {
             }, {
                 type: 'danger',
                 handler(row) {
-                    if (row.flag === 'true') {
-                        self.$message.success("该信息不能删除！")
-                    } else {
+                    // if (row.flag === 'true') {
+                    //     self.$message.success("该信息不能删除！")
+                    // } else {
                         self.$confirm('确认删除该数据?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(function () {
-                            let url = Flask.url_for("delete", {name: row.name, index: row.index});
+                            let url = Flask.url_for("delete", {name: row.name, id: row.id});
+                            console.log(url)
                             axios.delete(url).then(function (response) {
                                 self.getCategories();
                                 self.$message.success("删除成功！")
                             }).catch(self.showError)
                         });
 
-                    }
+                    // }
                 },
                 name: '删除'
             }]
@@ -103,7 +104,7 @@ Vue.component('tabel-detail', {
                 let url = Flask.url_for("update", {});
                 axios.put(url, {
                     name: self.form.name,
-                    index: self.form.index
+                    id: self.form.id
                 }).then(function (response) {
                     self.getCategories();
                     self.dialogFormVisible = false;
