@@ -29,8 +29,8 @@
         <data-tables :data='tableData' :actions-def="getActionsDef()"
                      :pagination-def="getPaginationDef()"
                      :row-action-def="getRowActionsDef()"
-                     action-col-width="80">
-            <el-table-column label="影片名称" min-width="400">
+                     action-col-width="150">
+            <el-table-column label="影片名称" min-width="300">
                 <template scope="scope">
                     <a :href="scope.row.url" target="_blank" v-text="scope.row.name"></a>
                 </template>

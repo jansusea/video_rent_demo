@@ -50,7 +50,22 @@ Vue.component('tabel-detail', {
         },
         getRowActionsDef: function () {
             let self = this;
-            return [{
+            return [
+                {
+                type: 'rent',
+                handler(row) {
+                    self.formType = 'edit';
+                    self.form.name = row.name;
+                    self.form.id = row.id;
+                    self.form.format = row.format;
+                    self.form.description = row.description;
+                    self.form.comment = row.comment;
+                    self.formTitle = '编辑数据';
+                    self.dialogFormVisible = true;
+                },
+                name: '借阅'
+            }
+            ,  {
                 type: 'primary',
                 handler(row) {
                     self.formType = 'edit';
@@ -66,9 +81,6 @@ Vue.component('tabel-detail', {
             }, {
                 type: 'danger',
                 handler(row) {
-                    // if (row.flag === 'true') {
-                    //     self.$message.success("该信息不能删除！")
-                    // } else {
                         self.$confirm('确认删除该数据?', '提示', {
                             confirmButtonText: '确定',
                             cancelButtonText: '取消',
