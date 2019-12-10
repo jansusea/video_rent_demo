@@ -8,14 +8,20 @@ Vue.component('tabel-detail', {
             tableData: [],
             dialogFormVisible: false,
             form: {
-                name: '',
                 id: '',
-                format: '',
-                description: '',
+                video_name: '',
+                video_id: '',
+                video_description: '',
+                customer_name: '',
+                customer_id: '',
+                customer_phone: '',
+                status: '',
+                rental_time: '',
+                return_time: '',
                 comment: ''
             },
             formType: 'create',
-            formTitle: '添加影片'
+            formTitle: '借阅'
         }
     },
     mounted: function () {
@@ -25,16 +31,19 @@ Vue.component('tabel-detail', {
         getActionsDef: function () {
             let self = this;
             return {
-                width: 5,
+                width: 9,
                 def: [{
-                    name: '添加影片',
+                    name: '借阅',
                     handler() {
                         self.formType = 'create';
-                        self.formTitle = '添加影片';
-                        self.form.name = '';
+                        self.formTitle = '借阅';
                         self.form.id = '';
-                        self.form.format = '';
-                        self.form.description = '';
+                        self.form.video_name = '';
+                        self.form.video_description = '';
+                        self.form.customer_phone = '';
+                        self.form.customer_name = '';
+                        self.form.rental_time = '';
+                        self.form.return_time = '';
                         self.form.comment = '';
                         self.dialogFormVisible = true;
                     },
@@ -52,32 +61,21 @@ Vue.component('tabel-detail', {
             let self = this;
             return [
                 {
-                type: 'rent',
-                handler(row) {
-                    self.formType = 'edit';
-                    self.form.name = row.name;
-                    self.form.id = row.id;
-                    self.form.format = row.format;
-                    self.form.description = row.description;
-                    self.form.comment = row.comment;
-                    self.formTitle = '编辑数据';
-                    self.dialogFormVisible = true;
-                },
-                name: '借阅'
-            }
-            ,  {
                 type: 'primary',
                 handler(row) {
                     self.formType = 'edit';
-                    self.form.name = row.name;
                     self.form.id = row.id;
-                    self.form.format = row.format;
-                    self.form.description = row.description;
+                    self.form.video_name = row.video_name;
+                    self.form.video_description = row.video_description;
+                    self.form.rental_time = row.rental_time;
+                    self.form.return_time = row.return_time;
+                    self.form.customer_name = row.customer_name;
+                    self.form.customer_phone = row.customer_phone;
                     self.form.comment = row.comment;
                     self.formTitle = '编辑数据';
                     self.dialogFormVisible = true;
                 },
-                name: '更新影片'
+                name: '编辑'
             }, {
                 type: 'danger',
                 handler(row) {
@@ -86,7 +84,7 @@ Vue.component('tabel-detail', {
                             cancelButtonText: '取消',
                             type: 'warning'
                         }).then(function () {
-                            let url = Flask.url_for("delete", {name: row.name, id: row.id});
+                            let url = Flask.url_for("delete", {name: row.video_name, id: row.id});
                             console.log(url)
                             axios.delete(url).then(function (response) {
                                 self.getCategories();
@@ -108,19 +106,19 @@ Vue.component('tabel-detail', {
         },
         createOrUpdate: function () {
             let self = this;
-            if (self.form.name === '') {
+            if (self.form.video_name === '') {
                 self.$message.error('影片名称不能为空！');
                 return
             }
-            if (self.form.format === '') {
-                self.form.format = 'BD-ROM'
-            }
             if (self.formType === 'create') {
-                let url = Flask.url_for("add");
+                let url = Flask.url_for("add_rental");
                 axios.post(url, {
-                    name: self.form.name,
-                    format: self.form.format,
-                    description: self.form.description,
+                    video_name: self.form.video_name,
+                    video_description: self.form.video_description,
+                    customer_phone: self.form.customer_phone,
+                    customer_name: self.form.customer_name,
+                    rental_time: self.form.rental_time,
+                    return_time: self.form.return_time,
                     comment: self.form.comment
                 }).then(function (response) {
                     self.getCategories();
@@ -128,12 +126,16 @@ Vue.component('tabel-detail', {
                     self.$message.success('添加成功！')
                 }).catch(self.showError);
             } else {
-                let url = Flask.url_for("update", {});
+                let url = Flask.url_for("update_rental", {});
                 axios.put(url, {
-                    name: self.form.name,
                     id: self.form.id,
-                    format: self.form.format,
-                    description: self.form.description,
+                    video_name: self.form.video_name,
+                    video_description: self.form.video_description,
+                    customer_phone: self.form.customer_phone,
+                    customer_name: self.form.customer_name,
+                    rental_time: self.form.rental_time,
+                    return_time: self.form.return_time,
+                    status: self.form.status,
                     comment: self.form.comment
                 }).then(function (response) {
                     self.getCategories();

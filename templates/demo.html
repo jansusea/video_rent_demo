@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="x-ua-compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/element_index.css') }}">
     <title>影片租赁系统</title>
 
 </head>
@@ -27,11 +28,11 @@
     <div class="head">
         <span class="title">影片租赁系统</span>
         <a href="#1">首页</a>
-        <span class="login">
-            <a href="#2">欢迎你</a><span>Shu</span>
-            <a href="#3">注销</a>
-            <a href="#4">修改密码</a>
-        </span>
+{#        <span class="login">#}
+{#            <a href="#2">欢迎你</a><span>Shu</span>#}
+{#            <a href="#3">注销</a>#}
+{#            <a href="#4">修改密码</a>#}
+{#        </span>#}
     </div>
     <div class="middle">
         <div class="left">
@@ -43,154 +44,119 @@
                     <a href="#">
                         <div> >>>查看会员</div>
                     </a>
-                    <a href="#">
+                    <a href="404.html">
                         <div> >>>查看</div>
                     </a>
                 </div>
             </div>
         </div>
         <div class="right">
-            <div class="find">
-                <span><input id="find_text" type="text" placeholder="  Title" value=""></span>
-                <button id="find_btn" onclick="fd()">查找</button>
+
+            <div id="vue-app">
+                    <tabel-detail></tabel-detail>
             </div>
-            <div class="content">
-                <table class="tb">
-                    <tr class="row_t">
-                        <th class="col_1">影片编号</th>
-                        <th class="col_2">影片名</th>
-                        <th class="col_3">介绍</th>
-                        <th class="col_4">租赁人</th>
-                        <th class="col_5">租赁状态</th>
-                        <th class="col_6">借出时间</th>
-                        <th class="col_7">还回时间</th>
-                        <th class="col_8">操作</th>
-                    </tr>
-                    <tr class="row hide">
-                        <td class="col_1">15662</td>
-                        <td class="col_2">金瓶</td>
-                        <td class="col_3">egon</td>
-                        <td class="col_4">12.00</td>
-                        <td class="col_5">计算机</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_0">
-                        <td class="col_1">15663</td>
-                        <td class="col_2">金瓶</td>
-                        <td class="col_3">egon</td>
-                        <td class="col_4">12.00</td>
-                        <td class="col_5">计算机</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_1">
-                        <td class="col_1">15664</td>
-                        <td class="col_2">水浒传</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_2">
-                        <td class="col_1">15665</td>
-                        <td class="col_2">水浒传1</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_3">
-                        <td class="col_1">15666</td>
-                        <td class="col_2">水浒传2</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_4">
-                        <td class="col_1">15667</td>
-                        <td class="col_2">水浒传3</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr id="row_5">
-                        <td class="col_1">15668</td>
-                        <td class="col_2">水浒传4</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                    <tr class="hide" id="row_6">
-                        <td class="col_1">15668</td>
-                        <td class="col_2">水浒传5</td>
-                        <td class="col_3">alex</td>
-                        <td class="col_4">45.00</td>
-                        <td class="col_5">文学</td>
-                        <td class="col_6">2017-08-03</td>
-                        <td class="col_7">2017-08-03</td>
-                        <td class="col_8">
-                            <button class="view">查看</button>
-                            <button class="edit" onclick="redact(this)">编辑</button>
-                            <button class="del" onclick="dell(this)">删除</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-            <div class="page">
-                <ul>
-                    <li><a href="#" class="page_edge">上一页</a></li>
-                    <li class="page1"><span>1</span></li>
-                    <li><a href="#" class="pagepa hide">2</a></li>
-                    <li><a href="#" class="page_edge">下一页</a></li>
-                </ul>
-            </div>
+
         </div>
     </div>
 </div>
+
+    <!--引入相应的包-->
+<!--让js文件可以使用Flask.url_for-->
+{{ JSGlue.include() }}
+<!--Vue.js-->
+<script src="{{ url_for('static', filename='js/vue.js') }}"></script>
+<!--element-ui-->
+<script src="{{ url_for('static', filename='js/element-index.js') }}"></script>
+<!--datatable.js-->
+<script src="{{ url_for('static', filename='js/data-tables.js') }}"></script>
+<!--axios.js-->
+<script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+
+<!--templates-->
+<script type="text/x-template" id="tabel-detail-template">
+    <div>
+        <data-tables :data='tableData' :actions-def="getActionsDef()"
+                     :pagination-def="getPaginationDef()"
+                     :row-action-def="getRowActionsDef()"
+                     action-col-width="100">
+            <el-table-column label="编号" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.id"></a>
+                </template>
+            </el-table-column>
+             <el-table-column label="影片名称" min-width="80">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.video_name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="影片介绍" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.video_description"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.customer_name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人手机号" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.customer_phone"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="状态" min-width="20">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.rental_status"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="借出时间" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.rental_time"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="还回时间" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.return_time"></a>
+                </template>
+            </el-table-column>
+        </data-tables>
+        <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
+            <el-form :model="form" @submit.native.prevent>
+                <el-form-item label="影片名称">
+                    <el-input ref="valueInput" v-model.trim="form.video_name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="影片">
+                    <el-input ref="valueInput" v-model.trim="form.format" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁人">
+                    <el-input ref="valueInput" v-model.trim="form.customer_name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁人手机号">
+                    <el-input ref="valueInput" v-model.trim="form.customer_phone" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="借出时间">
+                    <el-input ref="valueInput" v-model.trim="form.rental_time" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="还回时间">
+                    <el-input ref="valueInput" v-model.trim="form.return_time" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="createOrUpdate">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</script>
+
+<!--项目js-->
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 <script>
     var add_book = document.getElementById("add_book");
@@ -203,7 +169,6 @@
     var input = document.getElementsByTagName("input");
     var select = document.getElementsByName("classify")[0];
     var find_text = document.getElementById("find_text");
-    var find_btn=document.getElementById("find_btn")
     var operate = document.getElementById("operate");
     var row_all = document.getElementsByTagName("tr");
     var page_edge = document.getElementsByClassName("page_edge");
@@ -269,17 +234,6 @@
         var de_select = document.getElementById(edit_row.children[4].innerText)
         de_select.setAttribute("selected", "")
         tag = 1;
-    }
-
-    function fd() {
-        for (var i in row_list) {
-            if (row_list[i].innerText.match(find_text.value.trim())) {
-                row_list[i].classList.remove("hide")
-            }
-            else {
-                row_list[i].classList.add("hide")
-            }
-        }
     }
 
     add_book.onclick = function () {
@@ -373,48 +327,6 @@
             handel[i].classList.add("hide");
         }
     };
-
-    find_btn.onclick=function () {
-        fd();
-    }
-
-    find_text.onkeydown = function (e) {
-        e = e || window.event;
-        var keynum = e.keyCode;
-        if (keynum == 13) {
-            fd();
-        }
-    }
-
-    page_edge[1].onclick = function () {
-        if (list_lengh(row_list) / 6 > current_page) {
-            current_page++;
-        }
-        
-        for (var i in row_list) {
-            if (Number(i.slice(4,)) <= (current_page - 1) * 6-1 || Number(i.slice(4,)) > (current_page) * 6-1) {
-                row_list[i].classList.add("hide")
-            }
-            else {
-                row_list[i].classList.remove("hide")
-            }
-        }
-    }
-
-    page_edge[0].onclick = function () {
-        if (current_page > 1) {
-            current_page--;
-        }
-
-        for (var i in row_list) {
-            if (Number(i.slice(4,)) <= (current_page - 1) * 6 -1|| Number(i.slice(4,)) > (current_page) * 6-1) {
-                row_list[i].classList.add("hide")
-            }
-            else {
-                row_list[i].classList.remove("hide")
-            }
-        }
-    }
 
     var error = document.createElement("p");
     error.innerText = "2-10个字符，可使用字母、汉字、数字、不能是纯数字";
@@ -555,76 +467,6 @@
             display: inline-block;
             position: absolute;
             width: 84.9%;
-
-        }
-
-        .find {
-            position: relative;
-            margin: 15px 6%;
-            text-align: right;
-        }
-
-        .find span {
-            display: inline-block;
-            background: gray;
-            padding-left: 25px;
-            background: #f4f4f4;
-            border: solid 1px #c9c9c9;;
-            border-radius: 5px;
-        }
-
-        .find input {
-            display: inline;
-            width: 150px;
-            height: 30px;
-            border: none;
-            border-left: 1px solid #c9c9c9;
-            border-bottom-right-radius: 5px;
-            border-top-right-radius: 5px;
-        }
-
-        button, .find button {
-            width: 50px;
-            height: 30px;
-            background-color: #396bb3;
-            color: white;
-            border: solid 1px;
-            border-radius: 4px;
-        }
-
-        .tb {
-            width: 90%;
-            margin: 0 auto;
-
-            border-collapse: collapse;
-        }
-
-        .col_1 {
-            width: 10%;
-        }
-
-        .col_6 {
-            width: 15%;
-        }
-
-         .col_7 {
-            width: 15%;
-        }
-
-        .col_8 {
-            width: 25%
-        }
-
-        .col_8 .view {
-            background-color: #339900;
-        }
-
-        .col_8 .edit {
-            background-color: orange;
-        }
-
-        .col_8 .del {
-            background-color: firebrick;
         }
 
         tr {
@@ -634,11 +476,6 @@
 
         td, th {
             padding: 10px 0;
-        }
-
-        .page {
-            margin: 20px auto;
-            height: 34px;
         }
 
         .page ul {
@@ -657,13 +494,6 @@
             font-size: 12px;
         }
 
-        .page1 {
-            width: 34px;
-            line-height: 36px;
-            color: white;
-            background-color: #396bb3;
-        }
-
         .page a {
 
             float: left;
@@ -680,16 +510,6 @@
 
         .page .page_edge {
             width: 50px;
-        }
-
-        .bottom {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .pb {
-            font-weight: 600;
         }
 
         .pb span {
