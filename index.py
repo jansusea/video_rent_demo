@@ -1,9 +1,7 @@
 from flask_jsglue import JSGlue
-import random
-from uuid import uuid1
-from flask import Flask, render_template, flash, redirect, url_for, request, jsonify
+from flask import Flask, render_template, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_restful import reqparse, abort, Api, Resource
+from flask_restful import reqparse, Api
 
 app = Flask(__name__)
 api = Api(app)
