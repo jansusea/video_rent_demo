@@ -157,17 +157,7 @@ class RentalRelation:
 
 @app.route('/')
 def index():
-    return render_template('demo.html')
-
-
-@app.route('/bar')
-def bar():
-    return render_template('bar.html')
-
-
-@app.route('/foo')
-def foo():
-    return render_template('foo.html')
+    return render_template('index.html')
 
 
 @app.route('/get_data')

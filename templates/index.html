@@ -7,32 +7,206 @@
     <title>一个简单的影片租赁系统</title>
 </head>
 <body>
-<div id="vue-app">
-    <tabel-detail></tabel-detail>
+
+<div class="all">
+    <div class="head">
+        <span class="title">影片租赁系统</span>
+        <a href="#1">首页</a>
+    </div>
+    <div class="middle" id="foo_app">
+        <div class="left">
+            <div id="operate">操作
+                <div class="show">
+
+                    <router-link to="/">
+                        <div> >>>查看租赁关系</div>
+                    </router-link>
+                    <router-link to="/video">
+                        <div> >>>查看影片</div>
+                    </router-link>
+                    <router-link to="/customer">
+                        <div>>>>查看会员</div>
+                    </router-link>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <div id="foo-child-app">
+                <router-view></router-view>
+            </div>
+        </div>
+    </div>
 </div>
+
 </body>
 <!--引入相应的包-->
 <!--让js文件可以使用Flask.url_for-->
 {{ JSGlue.include() }}
 <!--Vue.js-->
 <script src="{{ url_for('static', filename='js/vue.js') }}"></script>
-<!--element-ui-->
-<script src="{{ url_for('static', filename='js/element-index.js') }}"></script>
+<!--Vue-router.js-->
+<script src="{{ url_for('static', filename='js/vue-router.js') }}"></script>
 <!--datatable.js-->
 <script src="{{ url_for('static', filename='js/data-tables.js') }}"></script>
 <!--axios.js-->
 <script src="{{ url_for('static', filename='js/axios.min.js') }}"></script>
+<!--moment.js-->
+<script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+
+<!--element-ui-->
+<script src="{{ url_for('static', filename='js/element-index.js') }}"></script>
 
 <!--templates-->
-<script type="text/x-template" id="tabel-detail-template">
+<script type="text/x-template" id="raw-template">
     <div>
         <data-tables :data='tableData' :actions-def="getActionsDef()"
                      :pagination-def="getPaginationDef()"
                      :row-action-def="getRowActionsDef()"
-                     action-col-width="150">
-            <el-table-column label="影片名称" min-width="300">
+                     action-col-width="100">
+            <el-table-column label="编号" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.id"></a>
+                </template>
+            </el-table-column>
+             <el-table-column label="影片名称" min-width="80">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.video_name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="影片介绍" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.video_description"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.customer_name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人手机号" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.customer_phone"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="状态" min-width="20">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="formatStatus(scope.row.status)"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="借出时间" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.rental_time"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="还回时间" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.return_time"></a>
+                </template>
+            </el-table-column>
+        </data-tables>
+        <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
+            <el-form :model="form" @submit.native.prevent>
+                <el-form-item label="影片名称">
+                    <el-input ref="valueInput" v-model.trim="form.video_name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="影片介绍">
+                    <el-input ref="valueInput" v-model.trim="form.video_description" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁人">
+                    <el-input ref="valueInput" v-model.trim="form.customer_name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁人手机号">
+                    <el-input ref="valueInput" v-model.trim="form.customer_phone" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁状态">
+                    <el-select v-model.trim="form.status" placeholder="请选择" @keyup.enter.native="createOrUpdate">
+                        <el-option
+                          v-for="item in options"
+                          :key="item.status"
+                          :label="item.label"
+                          :value="item.status">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="借出时间">
+                    <el-date-picker v-model.trim="form.rental_time" type="datetime" placeholder=""
+                    @keyup.enter.native="createOrUpdate" ></el-date-picker>
+                </el-form-item>
+                <el-form-item label="还回时间">
+                      <el-date-picker v-model.trim="form.return_time" type="datetime" placeholder=""
+                    @keyup.enter.native="createOrUpdate" ></el-date-picker>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="createOrUpdate">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</script>
+<script type="text/x-template" id="customer-template">
+    <div>
+        <data-tables :data='tableData' :actions-def="getActionsDef()"
+                     :pagination-def="getPaginationDef()"
+                     :row-action-def="getRowActionsDef()"
+                     action-col-width="100">
+            <el-table-column label="编号" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.id"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人" min-width="50">
                 <template scope="scope">
                     <a :href="scope.row.url" target="_blank" v-text="scope.row.name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="租赁人手机号" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.phone"></a>
+                </template>
+            </el-table-column>
+        </data-tables>
+        <el-dialog :title="formTitle" :visible.sync="dialogFormVisible">
+            <el-form :model="form" @submit.native.prevent>
+                <el-form-item label="租赁人">
+                    <el-input ref="valueInput" v-model.trim="form.name" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+                <el-form-item label="租赁人手机号">
+                    <el-input ref="valueInput" v-model.trim="form.phone" auto-complete="off"
+                              @keyup.enter.native="createOrUpdate"></el-input>
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">取 消</el-button>
+                <el-button type="primary" @click="createOrUpdate">确 定</el-button>
+            </div>
+        </el-dialog>
+    </div>
+</script>
+<script type="text/x-template" id="video-template">
+    <div>
+        <data-tables :data='tableData' :actions-def="getActionsDef()"
+                     :pagination-def="getPaginationDef()"
+                     :row-action-def="getRowActionsDef()"
+                     action-col-width="100">
+            <el-table-column label="编号" min-width="50">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.id"></a>
+                </template>
+            </el-table-column>
+             <el-table-column label="影片名称" min-width="80">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.name"></a>
+                </template>
+            </el-table-column>
+            <el-table-column label="影片介绍" min-width="100">
+                <template scope="scope">
+                    <a :href="scope.row.url" target="_blank" v-text="scope.row.description"></a>
                 </template>
             </el-table-column>
         </data-tables>
@@ -42,16 +216,8 @@
                     <el-input ref="valueInput" v-model.trim="form.name" auto-complete="off"
                               @keyup.enter.native="createOrUpdate"></el-input>
                 </el-form-item>
-                <el-form-item label="影片格式">
-                    <el-input ref="valueInput" v-model.trim="form.format" auto-complete="off"
-                              @keyup.enter.native="createOrUpdate"></el-input>
-                </el-form-item>
-                <el-form-item label="影片描述">
+                <el-form-item label="影片介绍">
                     <el-input ref="valueInput" v-model.trim="form.description" auto-complete="off"
-                              @keyup.enter.native="createOrUpdate"></el-input>
-                </el-form-item>
-                <el-form-item label="其它信息">
-                    <el-input ref="valueInput" v-model.trim="form.comment" auto-complete="off"
                               @keyup.enter.native="createOrUpdate"></el-input>
                 </el-form-item>
             </el-form>
@@ -64,5 +230,121 @@
 </script>
 
 <!--项目js-->
-<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/foo.js') }}"></script>
+<style>
+        * {
+            margin: 0;
+            padding: 0;
+            /*font-size: 12px;*/
+        }
+
+        a {
+            text-decoration: none;
+            color: darkgray;
+        }
+
+        .head {
+            position: relative;
+            width: 100%;
+            height: 45px;
+            line-height: 45px;
+            background: rgba(0, 0, 0, 0.79);
+            z-index: 1000;
+        }
+
+        .title {
+            color: white;
+            float: left;
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-left: 100px;
+        }
+
+        .head > a {
+            margin-left: 100px;
+        }
+
+        .login span {
+            color: white;
+        }
+
+        .login a {
+            margin: 0 16px;
+        }
+
+        .middle {
+            position: relative;
+        }
+
+        .left {
+            display: inline-block;
+            width: 15%;
+            height: 500px;
+            border-right: 1px black solid;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .left #operate {
+            margin-top: 20px;
+            background: #396bb3;
+            color: white;
+            height: 35px;
+            line-height: 35px;
+        }
+
+        .left a {
+            display: block;
+            width: 200px;
+            text-align: left;
+            margin: 0px 0 0 23px;
+            color: #396bb3;
+        }
+
+        .right {
+            display: inline-block;
+            position: absolute;
+            width: 84.9%;
+        }
+
+        tr {
+            text-align: center;
+            border-top: 1px solid #c9c9c9;
+        }
+
+        td, th {
+            padding: 10px 0;
+        }
+
+        .pb span {
+            color: #396bb3;
+        }
+
+        .add_text input {
+            width: 180px;
+            height: 25px;
+            font-size: 14px;
+            margin: 10px;
+            border: 1px solid gray;
+            border-radius: 2px;
+        }
+
+        .add_text p {
+            text-align: center;
+            margin: 10px 0;
+            line-height: 44px;
+        }
+
+        .add_text button {
+            width: 60px;
+            height: 30px;
+            margin: 5px;
+        }
+
+        select {
+            width: 25%;
+        }
+
+    </style>
 </html>
