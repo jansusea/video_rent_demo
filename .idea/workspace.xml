@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ef7e820d-f961-4815-85e4-dc22496c943f" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/uwsgi.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.py" beforeDir="false" afterPath="$PROJECT_DIR$/index.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -137,7 +135,7 @@
       <workItem from="1575038725342" duration="35725000" />
       <workItem from="1575270753087" duration="84000" />
       <workItem from="1575535428602" duration="1099000" />
-      <workItem from="1575782111373" duration="54207000" />
+      <workItem from="1575782111373" duration="55399000" />
     </task>
     <servers />
   </component>
